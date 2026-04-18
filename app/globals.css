@@ -1,0 +1,375 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.118 0.008 264);
+  --foreground: oklch(0.96 0.005 264);
+  --card: oklch(0.145 0.008 264);
+  --card-foreground: oklch(0.96 0.005 264);
+  --popover: oklch(0.13 0.008 264);
+  --popover-foreground: oklch(0.96 0.005 264);
+  --primary: oklch(0.72 0.15 264);
+  --primary-foreground: oklch(0.12 0.008 264);
+  --secondary: oklch(0.22 0.008 264);
+  --secondary-foreground: oklch(0.96 0.005 264);
+  --muted: oklch(0.2 0.008 264);
+  --muted-foreground: oklch(0.58 0.012 264);
+  --accent: oklch(0.22 0.01 264);
+  --accent-foreground: oklch(0.96 0.005 264);
+  --destructive: oklch(0.45 0.18 25);
+  --destructive-foreground: oklch(0.82 0.12 25);
+  --border: oklch(0.22 0.008 264);
+  --input: oklch(0.22 0.008 264);
+  --ring: oklch(0.5 0.12 264);
+  --chart-1: oklch(0.65 0.22 264);
+  --chart-2: oklch(0.65 0.18 162);
+  --chart-3: oklch(0.72 0.18 70);
+  --chart-4: oklch(0.62 0.22 295);
+  --chart-5: oklch(0.62 0.22 25);
+  --sidebar: oklch(0.13 0.008 264);
+  --sidebar-foreground: oklch(0.96 0.005 264);
+  --sidebar-primary: oklch(0.65 0.2 264);
+  --sidebar-primary-foreground: oklch(0.96 0.005 264);
+  --sidebar-accent: oklch(0.2 0.008 264);
+  --sidebar-accent-foreground: oklch(0.96 0.005 264);
+  --sidebar-border: oklch(0.22 0.008 264);
+  --sidebar-ring: oklch(0.5 0.12 264);
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Better focus outline */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.35 0.008 264);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.45 0.008 264);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Layout & Glass Utilities
+───────────────────────────────────────────────────────────── */
+
+@utility glass-panel {
+  @apply bg-background/60 backdrop-blur-xl border border-white/5 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)];
+}
+
+@utility glass-card {
+  @apply bg-card/40 backdrop-blur-md border border-white/10 shadow-lg hover:border-white/20 hover:bg-card/60 transition-all duration-300;
+}
+
+/* ─── BI Dashboard utilities ──────────────────────────────── */
+
+@utility bi-card {
+  @apply rounded-xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm
+         shadow-[0_2px_16px_-4px_rgba(0,0,0,0.4)]
+         transition-all duration-300
+         hover:border-white/[0.12] hover:bg-white/[0.05] hover:shadow-[0_4px_32px_-8px_rgba(0,0,0,0.5)];
+}
+
+/* Premium KPI Card */
+@utility kpi-card {
+  @apply rounded-2xl border border-white/[0.07] bg-white/[0.04] backdrop-blur-md
+         shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.06)]
+         transition-all duration-300
+         hover:border-white/[0.14] hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)]
+         hover:-translate-y-0.5;
+}
+
+@utility kpi-glow-blue {
+  box-shadow: 0 0 40px -12px rgba(99, 102, 241, 0.35), 0 4px 24px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+@utility kpi-glow-emerald {
+  box-shadow: 0 0 40px -12px rgba(16, 185, 129, 0.35), 0 4px 24px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+@utility kpi-glow-violet {
+  box-shadow: 0 0 40px -12px rgba(139, 92, 246, 0.35), 0 4px 24px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+@utility kpi-glow-amber {
+  box-shadow: 0 0 40px -12px rgba(245, 158, 11, 0.35), 0 4px 24px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Premium Section Card */
+@utility section-card {
+  @apply rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm
+         shadow-[0_2px_16px_-4px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]
+         p-6 transition-all duration-300;
+}
+
+/* Badge glow variants */
+@utility badge-blue {
+  @apply bg-blue-500/15 text-blue-400 border-blue-500/20;
+}
+@utility badge-violet {
+  @apply bg-violet-500/15 text-violet-400 border-violet-500/20;
+}
+@utility badge-emerald {
+  @apply bg-emerald-500/15 text-emerald-400 border-emerald-500/20;
+}
+@utility badge-amber {
+  @apply bg-amber-500/15 text-amber-400 border-amber-500/20;
+}
+@utility badge-red {
+  @apply bg-red-500/15 text-red-400 border-red-500/20;
+}
+
+/* Gradient text */
+@utility gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
+}
+@utility gradient-text-brand {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400;
+}
+
+/* Recharts tooltip */
+@utility recharts-tooltip-dark {
+  @apply rounded-xl border border-white/10 bg-gray-950/95 backdrop-blur-xl
+         shadow-[0_8px_32px_-8px_rgba(0,0,0,0.9)] px-4 py-3;
+}
+
+/* Input premium style */
+@utility input-premium {
+  @apply bg-white/[0.04] border-white/[0.08] focus:border-primary/50 focus:bg-white/[0.06]
+         placeholder:text-muted-foreground/50 transition-all duration-200;
+}
+
+/* Sidebar nav active */
+@utility nav-active {
+  @apply bg-white/[0.08] border border-white/[0.08] text-foreground;
+}
+
+/* Shimmer animation for skeletons */
+@utility shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes counter-up {
+  from { stroke-dasharray: 0 100; opacity: 0; transform: translateY(10px); }
+  to { stroke-dasharray: 100 100; opacity: 1; transform: translateY(0); }
+}
+
+@utility progress-bar {
+  @apply h-1.5 w-full bg-white/10 rounded-full overflow-hidden;
+}
+
+@utility progress-bar-fill {
+  @apply h-full bg-indigo-500 rounded-full transition-all duration-300;
+}
+
+/* No scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.04);
+}
+.recharts-text {
+  fill: oklch(0.55 0.01 264);
+  font-size: 11px;
+  font-family: 'Geist', sans-serif;
+}
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Page fade-in */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: page-in 0.4s ease forwards;
+}
+
+/* Dot pulse for status indicators */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.dot-pulse {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ─── Anti-Gravity Animations ──────────────────────────────── */
+
+@keyframes antigravity-float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  25%  { transform: translateY(-4px) rotate(0.3deg); }
+  50%  { transform: translateY(-7px) rotate(0deg); }
+  75%  { transform: translateY(-3px) rotate(-0.3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.4; filter: blur(25px); }
+  50%      { opacity: 0.7; filter: blur(35px); }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+.animate-antigravity {
+  animation: antigravity-float 8s ease-in-out infinite;
+}
+.animate-glow-breathe {
+  animation: glow-breathe 4s ease-in-out infinite;
+}
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+/* ─── Enhanced Recharts BI styles ──────────────────────────── */
+
+.recharts-bar-rectangle {
+  transition: all 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.15));
+}
+.recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 4px 16px rgba(99, 102, 241, 0.35)) brightness(1.15);
+}
+.recharts-pie-sector {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+.recharts-pie-sector:hover {
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5)) brightness(1.1);
+}
+.recharts-active-dot {
+  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
+}
+.recharts-legend-item-text {
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 11px !important;
+}
+

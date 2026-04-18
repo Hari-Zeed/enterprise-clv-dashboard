@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("user")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+
+  // Relations
+  datasets      Dataset[]
+  predictions   Prediction[]
+  models        ModelMetadata[]
+
+  @@index([email])
+}
+
+model Dataset {
+  id          String  @id @default(cuid())
+  name        String
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // File info
+  fileName    String
+  fileSize    Int
+  rowCount    Int
+  columnCount Int
+
+  // Data storage
+  csvData     String   @db.Text
+  columns     String[] 
+  dataTypes   String[] 
+
+  // Status
+  status      String  @default("pending") // pending, training, success, error
+  errorMessage String?
+
+  // Training metrics (stored after training completes)
+  trainR2     Float?
+  trainRmse   Float?
+  trainMae    Float?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  predictions Prediction[]
+  trainingJob TrainingJob?
+  modelRecord ModelMetadata?
+
+  @@index([userId])
+  @@index([status])
+}
+
+model TrainingJob {
+  id        String  @id @default(cuid())
+  datasetId String  @unique
+  dataset   Dataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  status    String  @default("pending") // pending, running, completed, failed
+  progress  Int     @default(0)
+
+  startedAt   DateTime?
+  completedAt DateTime?
+  errorLog    String? @db.Text
+
+  // Model performance metrics
+  accuracy Float?
+  rmse     Float?
+  mae      Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model ModelMetadata {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Link back to the dataset that produced this model
+  datasetId String? @unique
+  dataset   Dataset? @relation(fields: [datasetId], references: [id], onDelete: SetNull)
+
+  name        String
+  version     Int    @default(1)
+  description String? @db.Text
+
+  // Model configuration
+  modelType       String   @default("xgboost")
+  features        String[] 
+  hyperparameters String?  @db.Text
+
+  // Model performance
+  accuracy Float?
+  rmse     Float?
+  mae      Float?
+  cvScore  Float?
+
+  // Model storage path (used by Python predict daemon)
+  modelPath String?
+
+  status String @default("draft") // draft, training, active, archived
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Prediction {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  datasetId String?
+  dataset   Dataset? @relation(fields: [datasetId], references: [id], onDelete: SetNull)
+
+  // Input data (JSON stored as string)
+  inputData String @db.Text
+
+  // Prediction results
+  predictedValue  Float
+  confidenceScore Float
+
+  // Customer segmentation
+  segment String?
+
+  // Additional metrics
+  clvScore        Float?
+  recommendations String? @db.Text // JSON with recommendations
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([datasetId])
+  @@index([createdAt])
+}
+
+model AnalyticsEvent {
+  id     String @id @default(cuid())
+  userId String
+
+  eventType String
+  data      String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([createdAt])
+}

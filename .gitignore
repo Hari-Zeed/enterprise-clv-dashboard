@@ -1,0 +1,25 @@
+# Environment variables
+.env
+.env*.local
+.env.local
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+*.log
+dist
+
+# Python
+.venv
+venv
+__pycache__
+*.pyc
+
+# Prisma
+/prisma/*.db
+/prisma/*.db-journal
+
+# Build output
+out/
+build/
