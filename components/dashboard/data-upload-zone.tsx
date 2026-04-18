@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as _motion, AnimatePresence } from 'framer-motion';
+const motion = _motion as any;
 import {
   Upload, CheckCircle, AlertCircle, Loader2,
   FileText, XCircle, Database, Info, Activity, BarChart3
