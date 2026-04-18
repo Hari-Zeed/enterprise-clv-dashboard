@@ -20,10 +20,10 @@ import { useActiveModel } from '@/hooks/use-active-model';
 import { useAnalyticsTrends } from '@/hooks/use-analytics-trends';
 import {
   XAxis, YAxis, CartesianGrid,
-  ResponsiveContainer, Area, AreaChart,
+  ResponsiveContainer, Area, AreaChart, Tooltip
 } from 'recharts';
 import { cn, formatCurrency, formatCompactCurrency } from '@/lib/utils';
-import { CustomTooltip } from '@/components/dashboard/chart-tooltip'; // Use shared tooltip if exists or locally define
+// Tooltip is defined locally below as GlassTooltip
 
 // ─── Shared Tooltip ──────────────────────────────────────────
 const GlassTooltip = React.memo(({ active, payload, label }: any) => {

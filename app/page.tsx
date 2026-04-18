@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion as _motion } from 'framer-motion';
+const motion = _motion as any;
 import {
   Activity, ArrowRight, BarChart3, Brain, Shield,
   Zap, Database, ChevronRight, CheckCircle2,
