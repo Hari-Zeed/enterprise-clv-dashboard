@@ -204,8 +204,10 @@ function runIsolatedScript<T>(
   });
 }
 
-// ─── Singleton daemon instance ───────────────────────────────────────────────
-const daemon = PredictDaemon.getInstance();
+// ─── Singleton daemon instance (only on local / Python-enabled servers) ─────
+// On Vercel / serverless the daemon must never start — Python is not available.
+const isServerless = !!(process.env.VERCEL || process.env.NODE_ENV === 'production' || !process.env.PYTHON_ENABLED);
+const daemon = isServerless ? null : PredictDaemon.getInstance();
 
 // ─── Exported ML Service ─────────────────────────────────────────────────────
 export const mlService = {
@@ -313,6 +315,10 @@ export const mlService = {
           'No trained model found. Please upload a dataset to train the model first.'
         );
       }
+    }
+
+    if (!daemon) {
+      throw new MLError('Python ML daemon is not available in this environment. Predictions are handled via serverless mock.');
     }
 
     const result = await daemon.schedulePrediction(modelPath, data);
