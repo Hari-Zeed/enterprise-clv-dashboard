@@ -3,7 +3,7 @@ import { auth } from '@/app/api/auth/[...nextauth]/route';
 
 const PUBLIC_PATHS = ['/auth/login', '/auth/signup', '/auth/error', '/'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes and API auth routes through
